@@ -97,6 +97,11 @@
             // nudDensity
             // 
             this.nudDensity.Location = new System.Drawing.Point(33, 122);
+            this.nudDensity.Maximum = new decimal(new int[] {
+            25,
+            0,
+            0,
+            0});
             this.nudDensity.Minimum = new decimal(new int[] {
             2,
             0,
@@ -107,7 +112,7 @@
             this.nudDensity.TabIndex = 3;
             this.nudDensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudDensity.Value = new decimal(new int[] {
-            2,
+            25,
             0,
             0,
             0});
