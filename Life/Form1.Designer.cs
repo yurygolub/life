@@ -3,14 +3,14 @@
     partial class Form1
     {
         /// <summary>
-        /// Обязательная переменная конструктора.
+        ///  Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        /// Освободить все используемые ресурсы.
+        ///  Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,11 +20,11 @@
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
+        #region Windows Form Designer generated code
 
         /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -54,6 +54,7 @@
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -68,16 +69,18 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.pictureBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(842, 464);
+            this.splitContainer1.Size = new System.Drawing.Size(982, 535);
             this.splitContainer1.SplitterDistance = 173;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
             // bStop
             // 
-            this.bStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bStop.Location = new System.Drawing.Point(33, 188);
+            this.bStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.bStop.Location = new System.Drawing.Point(11, 178);
+            this.bStop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bStop.Name = "bStop";
-            this.bStop.Size = new System.Drawing.Size(120, 23);
+            this.bStop.Size = new System.Drawing.Size(140, 27);
             this.bStop.TabIndex = 5;
             this.bStop.Text = "Stop";
             this.bStop.UseVisualStyleBackColor = true;
@@ -85,10 +88,11 @@
             // 
             // bStart
             // 
-            this.bStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.bStart.Location = new System.Drawing.Point(33, 159);
+            this.bStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.bStart.Location = new System.Drawing.Point(11, 133);
+            this.bStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.bStart.Name = "bStart";
-            this.bStart.Size = new System.Drawing.Size(120, 23);
+            this.bStart.Size = new System.Drawing.Size(140, 27);
             this.bStart.TabIndex = 4;
             this.bStart.Text = "Start";
             this.bStart.UseVisualStyleBackColor = true;
@@ -96,7 +100,8 @@
             // 
             // nudDensity
             // 
-            this.nudDensity.Location = new System.Drawing.Point(33, 122);
+            this.nudDensity.Location = new System.Drawing.Point(11, 86);
+            this.nudDensity.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudDensity.Maximum = new decimal(new int[] {
             25,
             0,
@@ -108,7 +113,7 @@
             0,
             0});
             this.nudDensity.Name = "nudDensity";
-            this.nudDensity.Size = new System.Drawing.Size(120, 20);
+            this.nudDensity.Size = new System.Drawing.Size(140, 23);
             this.nudDensity.TabIndex = 3;
             this.nudDensity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudDensity.Value = new decimal(new int[] {
@@ -120,8 +125,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(30, 92);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(11, 66);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 17);
             this.label2.TabIndex = 2;
@@ -129,7 +135,8 @@
             // 
             // nudResolution
             // 
-            this.nudResolution.Location = new System.Drawing.Point(33, 52);
+            this.nudResolution.Location = new System.Drawing.Point(11, 27);
+            this.nudResolution.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.nudResolution.Maximum = new decimal(new int[] {
             25,
             0,
@@ -141,7 +148,7 @@
             0,
             0});
             this.nudResolution.Name = "nudResolution";
-            this.nudResolution.Size = new System.Drawing.Size(120, 20);
+            this.nudResolution.Size = new System.Drawing.Size(140, 23);
             this.nudResolution.TabIndex = 1;
             this.nudResolution.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudResolution.Value = new decimal(new int[] {
@@ -153,8 +160,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(30, 22);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(11, 7);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(85, 17);
             this.label1.TabIndex = 0;
@@ -164,8 +172,9 @@
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(661, 460);
+            this.pictureBox1.Size = new System.Drawing.Size(800, 531);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
@@ -177,10 +186,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(842, 464);
+            this.ClientSize = new System.Drawing.Size(982, 535);
             this.Controls.Add(this.splitContainer1);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Form1";
             this.Text = "Life";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
