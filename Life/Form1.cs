@@ -7,7 +7,6 @@ namespace WindowsFormsApp3
 {
     public partial class Form1 : Form
     {
-        
         private Graphics graphics;
         private int resolution;
         private GameEngine gameEngine;
@@ -16,105 +15,106 @@ namespace WindowsFormsApp3
 
         public Form1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void StartGame()
         {
-            if (timer1.Enabled)
+            if (this.timer1.Enabled)
             {
                 return;
-            }            
+            }
 
-            nudResolution.Enabled = false;
-            nudDensity.Enabled = false;
-            resolution = (int)nudResolution.Value;
-            gameEngine = new GameEngine
+            this.nudResolution.Enabled = false;
+            this.nudDensity.Enabled = false;
+            this.resolution = (int)this.nudResolution.Value;
+            this.gameEngine = new GameEngine
             (
-                rows: pictureBox1.Height / resolution,
-                cols: pictureBox1.Width / resolution,
-                density: (int)nudDensity.Minimum + (int)nudDensity.Maximum - (int)nudDensity.Value
+                rows: this.pictureBox1.Height / this.resolution,
+                cols: this.pictureBox1.Width / this.resolution,
+                density: (int)this.nudDensity.Minimum + (int)this.nudDensity.Maximum - (int)this.nudDensity.Value
             );
 
-            Text = $"Generation {gameEngine.CurrentGeneration}";
-            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            graphics = Graphics.FromImage(pictureBox1.Image);
-            timer1.Start();
+            this.Text = $"Generation {this.gameEngine.CurrentGeneration}";
+            this.pictureBox1.Image = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
+            this.graphics = Graphics.FromImage(this.pictureBox1.Image);
+            this.timer1.Start();
         }
 
         private void DrawNextGeneration()
         {
-            stopwatch.Restart();
+            this.stopwatch.Restart();
 
-            graphics.Clear(Color.Black);
-            var field = gameEngine.GetCurrentGeneration();
+            this.graphics.Clear(Color.Black);
+            var field = this.gameEngine.GetCurrentGeneration();
             for (int x = 0; x < field.Length; x++)
             {
                 for (int y = 0; y < field[x].Length; y++)
                 {
                     if (field[x][y] == 1)
                     {
-                        graphics.FillRectangle(Brushes.Crimson, y * resolution, x * resolution, resolution, resolution);
-                        //graphics.GetHdc();
+                        this.graphics.FillRectangle(Brushes.Crimson, y * this.resolution, x * this.resolution, this.resolution, this.resolution);
+
+                        // graphics.GetHdc();
                     }
                 }
             }
 
-            pictureBox1.Refresh();
+            this.pictureBox1.Refresh();
 
-            gameEngine.NextGeneration();
+            this.gameEngine.NextGeneration();
 
-            stopwatch.Stop();
+            this.stopwatch.Stop();
 
-            Text = $"Generation {gameEngine.CurrentGeneration}   Frame time: {stopwatch.ElapsedMilliseconds}";
+            this.Text = $"Generation {this.gameEngine.CurrentGeneration}   Frame time: {this.stopwatch.ElapsedMilliseconds}";
         }
 
         private void StopGame()
         {
-            if (!timer1.Enabled)
+            if (!this.timer1.Enabled)
             {
                 return;
             }
 
-            timer1.Stop();
-            nudDensity.Enabled = true;
-            nudResolution.Enabled = true;
+            this.timer1.Stop();
+            this.nudDensity.Enabled = true;
+            this.nudResolution.Enabled = true;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
-            DrawNextGeneration();
+            this.DrawNextGeneration();
         }
 
-        private void bStart_Click(object sender, EventArgs e)
+        private void BStart_Click(object sender, EventArgs e)
         {
-            StartGame();
+            this.StartGame();
         }
 
-        private void bStop_Click(object sender, EventArgs e)
+        private void BStop_Click(object sender, EventArgs e)
         {
-            StopGame();
+            this.StopGame();
         }
 
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void PictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!timer1.Enabled)
+            if (!this.timer1.Enabled)
             {
                 return;
             }
 
             if (e.Button == MouseButtons.Left)
             {
-                var x = e.Location.X / resolution;
-                var y = e.Location.Y / resolution;
-                gameEngine.AddCell(x, y);
+                var x = e.Location.X / this.resolution;
+                var y = e.Location.Y / this.resolution;
+                this.gameEngine.AddCell(x, y);
             }
 
             if (e.Button == MouseButtons.Right)
             {
-                var x = e.Location.X / resolution;
-                var y = e.Location.Y / resolution;
-                gameEngine.RemoveCell(x, y);
+                var x = e.Location.X / this.resolution;
+                var y = e.Location.Y / this.resolution;
+                this.gameEngine.RemoveCell(x, y);
             }
         }
     }

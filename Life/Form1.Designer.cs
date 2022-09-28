@@ -84,7 +84,7 @@
             this.bStop.TabIndex = 5;
             this.bStop.Text = "Stop";
             this.bStop.UseVisualStyleBackColor = true;
-            this.bStop.Click += new System.EventHandler(this.bStop_Click);
+            this.bStop.Click += new System.EventHandler(this.BStop_Click);
             // 
             // bStart
             // 
@@ -96,7 +96,7 @@
             this.bStart.TabIndex = 4;
             this.bStart.Text = "Start";
             this.bStart.UseVisualStyleBackColor = true;
-            this.bStart.Click += new System.EventHandler(this.bStart_Click);
+            this.bStart.Click += new System.EventHandler(this.BStart_Click);
             // 
             // nudDensity
             // 
@@ -177,12 +177,12 @@
             this.pictureBox1.Size = new System.Drawing.Size(800, 531);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBox1_MouseMove);
             // 
             // timer1
             // 
             this.timer1.Interval = 40;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Form1
             // 
