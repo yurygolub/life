@@ -1,107 +1,96 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WindowsFormsApp3
 {
     class GameEngine
     {
-        public uint CurrentGeneration { get; private set; }
-        private bool[,] field;
         private readonly int rows;
-        private readonly int cols;       
+        private readonly int cols;
+
+        private byte[][] field;
+        private byte[][] newField;
 
         public GameEngine(int rows, int cols, int density)
         {
             this.rows = rows;
             this.cols = cols;
-            field = new bool[cols, rows];
+            field = new byte[rows][];
+
+            newField = new byte[rows][];
 
             Random rand = new Random();
-            for (int x = 0; x < cols; x++)
+            for (int x = 0; x < rows; x++)
             {
-                for (int y = 0; y < rows; y++)
+                field[x] = new byte[cols];
+
+                newField[x] = new byte[cols];
+
+                for (int y = 0; y < cols; y++)
                 {
-                    field[x, y] = rand.Next(density) == 0;
+                    field[x][y] = (rand.Next(density) == 0) ? (byte)1 : (byte)0;
                 }
             }
         }
 
+        public uint CurrentGeneration { get; private set; }
+
         public void NextGeneration()
         {
-            var newField = new bool[cols, rows];
-            for (int x = 0; x < cols; x++)
+            for (int x = 0; x < rows; x++)
             {
-                for (int y = 0; y < rows; y++)
+                for (int y = 0; y < cols; y++)
                 {
-                    var neighboursCount = CountNeighbours(x, y);
-                    var hasLife = field[x, y];
+                    int neighboursCount = 0;
+
+                    neighboursCount += field[(x - 1 + rows) % rows][(y - 1 + cols) % cols];
+                    neighboursCount += field[(x + rows) % rows][(y - 1 + cols) % cols];
+                    neighboursCount += field[(x + 1 + rows) % rows][(y - 1 + cols) % cols];
+
+                    neighboursCount += field[(x - 1 + rows) % rows][(y + cols) % cols];
+                    neighboursCount += field[(x + 1 + rows) % rows][(y + cols) % cols];
+
+                    neighboursCount += field[(x - 1 + rows) % rows][(y + 1 + cols) % cols];
+                    neighboursCount += field[(x + rows) % rows][(y + 1 + cols) % cols];
+                    neighboursCount += field[(x + 1 + rows) % rows][(y + 1 + cols) % cols];
+
+                    var hasLife = field[x][y] == 1;
                     if (!hasLife && neighboursCount == 3)
                     {
-                        newField[x, y] = true;
+                        newField[x][y] = 1;
                     }
                     else if (hasLife && (neighboursCount < 2 || neighboursCount > 3))
                     {
-                        newField[x, y] = false;
+                        newField[x][y] = 0;
                     }
                     else
                     {
-                        newField[x, y] = field[x, y];
+                        newField[x][y] = field[x][y];
                     }                    
                 }
             }
 
+            var temp = field;
             field = newField;
+            newField = temp;
+
             CurrentGeneration++;
         }
 
-        public bool[,] GetCurrentGeneration()
+        public byte[][] GetCurrentGeneration()
         {
-            var result = new bool[cols, rows];
-            for (int x = 0; x < cols; x++)
-            {
-                for (int y = 0; y < rows; y++)
-                {
-                    result[x, y] = field[x, y];
-                }
-            }
-
-            return result;
-        }
-
-        private int CountNeighbours(int x, int y)
-        {
-            int count = 0;
-            for (int i = -1; i < 2; i++)
-            {
-                for (int j = -1; j < 2; j++)
-                {
-                    var col = (x + i + cols) % cols;
-                    var row = (y + j + rows) % rows;
-                    var isSelfChecking = col == x && row == y;
-                    var hasLife = field[col, row];
-                    if (hasLife && !isSelfChecking)
-                    {
-                        count++;
-                    }
-                }
-            }
-
-            return count;
+            return field;
         }
 
         private bool ValidateCellPosition(int x, int y)
         {
-            return x >= 0 && y >= 0 && x < cols && y < rows;
+            return x >= 0 && y >= 0 && x < rows && y < cols;
         }
 
         private void UpdateCell(int x, int y, bool state)
         {
             if(ValidateCellPosition(x, y))
             {
-                field[x, y] = state;
+                field[y][x] = state ? (byte)1 : (byte)0;
             }
         }
 

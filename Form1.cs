@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WindowsFormsApp3
@@ -17,6 +11,8 @@ namespace WindowsFormsApp3
         private Graphics graphics;
         private int resolution;
         private GameEngine gameEngine;
+
+        private Stopwatch stopwatch = new Stopwatch();
 
         public Form1()
         {
@@ -48,22 +44,29 @@ namespace WindowsFormsApp3
 
         private void DrawNextGeneration()
         {
+            stopwatch.Restart();
+
             graphics.Clear(Color.Black);
             var field = gameEngine.GetCurrentGeneration();
-            for (int x = 0; x < field.GetLength(0); x++)
+            for (int x = 0; x < field.Length; x++)
             {
-                for (int y = 0; y < field.GetLength(1); y++)
+                for (int y = 0; y < field[x].Length; y++)
                 {
-                    if (field[x, y])
+                    if (field[x][y] == 1)
                     {
-                        graphics.FillRectangle(Brushes.Crimson, x * resolution, y * resolution, resolution, resolution);
+                        graphics.FillRectangle(Brushes.Crimson, y * resolution, x * resolution, resolution, resolution);
+                        //graphics.GetHdc();
                     }
                 }
-            }            
+            }
 
             pictureBox1.Refresh();
-            Text = $"Generation {gameEngine.CurrentGeneration}";
+
             gameEngine.NextGeneration();
+
+            stopwatch.Stop();
+
+            Text = $"Generation {gameEngine.CurrentGeneration}   Frame time: {stopwatch.ElapsedMilliseconds}";
         }
 
         private void StopGame()
