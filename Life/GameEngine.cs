@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WindowsFormsApp3
+namespace Life
 {
     internal class GameEngine
     {
@@ -14,20 +14,19 @@ namespace WindowsFormsApp3
         {
             this.rows = rows;
             this.cols = cols;
-            this.field = new byte[rows][];
 
+            this.field = new byte[rows][];
             this.newField = new byte[rows][];
 
             Random rand = new Random();
-            for (int x = 0; x < rows; x++)
+            for (int i = 0; i < rows; i++)
             {
-                this.field[x] = new byte[cols];
+                this.field[i] = new byte[cols];
+                this.newField[i] = new byte[cols];
 
-                this.newField[x] = new byte[cols];
-
-                for (int y = 0; y < cols; y++)
+                for (int j = 0; j < cols; j++)
                 {
-                    this.field[x][y] = (rand.Next(density) == 0) ? (byte)1 : (byte)0;
+                    this.field[i][j] = (rand.Next(density) == 0) ? (byte)1 : (byte)0;
                 }
             }
         }
@@ -36,40 +35,40 @@ namespace WindowsFormsApp3
 
         public void NextGeneration()
         {
-            for (int x = 0; x < this.rows; x++)
+            for (int i = 0; i < this.rows; i++)
             {
-                for (int y = 0; y < this.cols; y++)
+                for (int j = 0; j < this.cols; j++)
                 {
                     int neighboursCount = 0;
 
-                    neighboursCount += this.field[(x - 1 + this.rows) % this.rows][(y - 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(x + this.rows) % this.rows][(y - 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(x + 1 + this.rows) % this.rows][(y - 1 + this.cols) % this.cols];
+                    neighboursCount += this.field[(i - 1 + this.rows) % this.rows][(j - 1 + this.cols) % this.cols];
+                    neighboursCount += this.field[(i + this.rows) % this.rows][(j - 1 + this.cols) % this.cols];
+                    neighboursCount += this.field[(i + 1 + this.rows) % this.rows][(j - 1 + this.cols) % this.cols];
 
-                    neighboursCount += this.field[(x - 1 + this.rows) % this.rows][(y + this.cols) % this.cols];
-                    neighboursCount += this.field[(x + 1 + this.rows) % this.rows][(y + this.cols) % this.cols];
+                    neighboursCount += this.field[(i - 1 + this.rows) % this.rows][(j + this.cols) % this.cols];
+                    neighboursCount += this.field[(i + 1 + this.rows) % this.rows][(j + this.cols) % this.cols];
 
-                    neighboursCount += this.field[(x - 1 + this.rows) % this.rows][(y + 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(x + this.rows) % this.rows][(y + 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(x + 1 + this.rows) % this.rows][(y + 1 + this.cols) % this.cols];
+                    neighboursCount += this.field[(i - 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols];
+                    neighboursCount += this.field[(i + this.rows) % this.rows][(j + 1 + this.cols) % this.cols];
+                    neighboursCount += this.field[(i + 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols];
 
-                    var hasLife = this.field[x][y] == 1;
+                    var hasLife = this.field[i][j] == 1;
                     if (!hasLife && neighboursCount == 3)
                     {
-                        this.newField[x][y] = 1;
+                        this.newField[i][j] = 1;
                     }
                     else if (hasLife && (neighboursCount < 2 || neighboursCount > 3))
                     {
-                        this.newField[x][y] = 0;
+                        this.newField[i][j] = 0;
                     }
                     else
                     {
-                        this.newField[x][y] = this.field[x][y];
+                        this.newField[i][j] = this.field[i][j];
                     }
                 }
             }
 
-            var temp = this.field;
+            byte[][] temp = this.field;
             this.field = this.newField;
             this.newField = temp;
 
@@ -83,24 +82,24 @@ namespace WindowsFormsApp3
 
         public void AddCell(int x, int y)
         {
-            this.UpdateCell(x, y, state: true);
+            this.UpdateCell(y, x, state: true);
         }
 
         public void RemoveCell(int x, int y)
         {
-            this.UpdateCell(x, y, state: false);
+            this.UpdateCell(y, x, state: false);
         }
 
-        private bool ValidateCellPosition(int x, int y)
+        private bool ValidateCellPosition(int i, int j)
         {
-            return x >= 0 && y >= 0 && x < this.rows && y < this.cols;
+            return i >= 0 && j >= 0 && i < this.rows && j < this.cols;
         }
 
-        private void UpdateCell(int x, int y, bool state)
+        private void UpdateCell(int i, int j, bool state)
         {
-            if (this.ValidateCellPosition(x, y))
+            if (this.ValidateCellPosition(i, j))
             {
-                this.field[y][x] = state ? (byte)1 : (byte)0;
+                this.field[i][j] = state ? (byte)1 : (byte)0;
             }
         }
     }

@@ -3,15 +3,15 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp3
+namespace Life
 {
     public partial class Form1 : Form
     {
+        private readonly Stopwatch stopwatch = new Stopwatch();
+
         private Graphics graphics;
         private int resolution;
         private GameEngine gameEngine;
-
-        private Stopwatch stopwatch = new Stopwatch();
 
         public Form1()
         {
@@ -28,12 +28,10 @@ namespace WindowsFormsApp3
             this.nudResolution.Enabled = false;
             this.nudDensity.Enabled = false;
             this.resolution = (int)this.nudResolution.Value;
-            this.gameEngine = new GameEngine
-            (
+            this.gameEngine = new GameEngine(
                 rows: this.pictureBox1.Height / this.resolution,
                 cols: this.pictureBox1.Width / this.resolution,
-                density: (int)this.nudDensity.Minimum + (int)this.nudDensity.Maximum - (int)this.nudDensity.Value
-            );
+                density: (int)this.nudDensity.Minimum + (int)this.nudDensity.Maximum - (int)this.nudDensity.Value);
 
             this.Text = $"Generation {this.gameEngine.CurrentGeneration}";
             this.pictureBox1.Image = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
@@ -47,13 +45,13 @@ namespace WindowsFormsApp3
 
             this.graphics.Clear(Color.Black);
             var field = this.gameEngine.GetCurrentGeneration();
-            for (int x = 0; x < field.Length; x++)
+            for (int y = 0; y < field.Length; y++)
             {
-                for (int y = 0; y < field[x].Length; y++)
+                for (int x = 0; x < field[y].Length; x++)
                 {
-                    if (field[x][y] == 1)
+                    if (field[y][x] == 1)
                     {
-                        this.graphics.FillRectangle(Brushes.Crimson, y * this.resolution, x * this.resolution, this.resolution, this.resolution);
+                        this.graphics.FillRectangle(Brushes.Crimson, x * this.resolution, y * this.resolution, this.resolution, this.resolution);
 
                         // graphics.GetHdc();
                     }

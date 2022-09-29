@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp3
+namespace Life
 {
     internal static class Program
     {

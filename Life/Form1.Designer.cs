@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp3
+﻿namespace Life
 {
     partial class Form1
     {
