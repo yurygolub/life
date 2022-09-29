@@ -37,34 +37,25 @@ namespace Life
         {
             for (int i = 0; i < this.rows; i++)
             {
+                int buffer = 0;
+
+                buffer |= this.field[(i - 1 + this.rows) % this.rows][(-1 + this.cols) % this.cols];
+                buffer |= this.field[(i + this.rows) % this.rows][(-1 + this.cols) % this.cols] << 1;
+                buffer |= this.field[(i + 1 + this.rows) % this.rows][(-1 + this.cols) % this.cols] << 2;
+
+                buffer |= this.field[(i - 1 + this.rows) % this.rows][0] << 3;
+                buffer |= this.field[(i + this.rows) % this.rows][0] << 4;
+                buffer |= this.field[(i + 1 + this.rows) % this.rows][0] << 5;
+
                 for (int j = 0; j < this.cols; j++)
                 {
-                    int neighboursCount = 0;
+                    buffer |= this.field[(i - 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols] << 6;
+                    buffer |= this.field[(i + this.rows) % this.rows][(j + 1 + this.cols) % this.cols] << 7;
+                    buffer |= this.field[(i + 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols] << 8;
 
-                    neighboursCount += this.field[(i - 1 + this.rows) % this.rows][(j - 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(i + this.rows) % this.rows][(j - 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(i + 1 + this.rows) % this.rows][(j - 1 + this.cols) % this.cols];
+                    this.newField[i][j] = Magic.Solutions[buffer];
 
-                    neighboursCount += this.field[(i - 1 + this.rows) % this.rows][(j + this.cols) % this.cols];
-                    neighboursCount += this.field[(i + 1 + this.rows) % this.rows][(j + this.cols) % this.cols];
-
-                    neighboursCount += this.field[(i - 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(i + this.rows) % this.rows][(j + 1 + this.cols) % this.cols];
-                    neighboursCount += this.field[(i + 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols];
-
-                    var hasLife = this.field[i][j] == 1;
-                    if (!hasLife && neighboursCount == 3)
-                    {
-                        this.newField[i][j] = 1;
-                    }
-                    else if (hasLife && (neighboursCount < 2 || neighboursCount > 3))
-                    {
-                        this.newField[i][j] = 0;
-                    }
-                    else
-                    {
-                        this.newField[i][j] = this.field[i][j];
-                    }
+                    buffer >>= 3;
                 }
             }
 
