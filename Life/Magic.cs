@@ -2,7 +2,7 @@
 {
     internal static class Magic
     {
-        public static byte[] Solutions { get; } = new byte[]
+        public static readonly byte[] Solutions = new byte[]
         {
             0,
             0,
