@@ -1,13 +1,26 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+
+#pragma warning disable SA1407
 
 namespace Life
 {
     public partial class Form1 : Form
     {
         private readonly Stopwatch stopwatch = new Stopwatch();
+
+        private int rows;
+        private int cols;
+
+        private int height;
+        private int width;
+
+        private int rgbValuesLength;
+        private byte[] rgbValues;
 
         private Graphics graphics;
         private int resolution;
@@ -28,14 +41,27 @@ namespace Life
             this.nudResolution.Enabled = false;
             this.nudDensity.Enabled = false;
             this.resolution = (int)this.nudResolution.Value;
-            this.gameEngine = new GameEngine(
-                rows: this.pictureBox1.Height / this.resolution,
-                cols: this.pictureBox1.Width / this.resolution,
-                density: (int)this.nudDensity.Minimum + (int)this.nudDensity.Maximum - (int)this.nudDensity.Value);
+
+            this.rows = this.pictureBox1.Height / this.resolution;
+            this.cols = this.pictureBox1.Width / this.resolution;
+
+            this.gameEngine = new GameEngine(this.rows, this.cols, (int)this.nudDensity.Minimum + (int)this.nudDensity.Maximum - (int)this.nudDensity.Value);
 
             this.Text = $"Generation {this.gameEngine.CurrentGeneration}";
+
             this.pictureBox1.Image = new Bitmap(this.pictureBox1.Width, this.pictureBox1.Height);
             this.graphics = Graphics.FromImage(this.pictureBox1.Image);
+
+            this.height = this.pictureBox1.Height;
+            this.width = this.pictureBox1.Width;
+
+            this.rgbValuesLength = this.height * this.width * 4;
+            this.rgbValues = new byte[this.rgbValuesLength];
+            for (int i = 0; i < this.rgbValuesLength; i += 4)
+            {
+                this.rgbValues[i + 3] = 255;
+            }
+
             this.timer1.Start();
         }
 
@@ -43,20 +69,33 @@ namespace Life
         {
             this.stopwatch.Restart();
 
-            this.graphics.Clear(Color.Black);
-            var field = this.gameEngine.GetCurrentGeneration();
-            for (int y = 0; y < field.Length; y++)
-            {
-                for (int x = 0; x < field[y].Length; x++)
-                {
-                    if (field[y][x] == 1)
-                    {
-                        this.graphics.FillRectangle(Brushes.Crimson, x * this.resolution, y * this.resolution, this.resolution, this.resolution);
+            Bitmap bmp = (Bitmap)this.pictureBox1.Image.Clone();
 
-                        // graphics.GetHdc();
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+
+            var field = this.gameEngine.GetCurrentGeneration();
+            for (int y = 0; y < this.rows; y++)
+            {
+                for (int i = 0; i < this.resolution; i++)
+                {
+                    int yIndex = (y * this.resolution + i) * this.width;
+                    for (int x = 0; x < this.cols; x++)
+                    {
+                        for (int j = 0; j < this.resolution; j++)
+                        {
+                            this.rgbValues[(yIndex + x * this.resolution + j) * 4 + 2] = (byte)(field[y][x] * 255);
+                        }
                     }
                 }
             }
+
+            IntPtr ptr = bmpData.Scan0;
+
+            Marshal.Copy(this.rgbValues, 0, ptr, this.rgbValuesLength);
+
+            bmp.UnlockBits(bmpData);
+
+            this.graphics.DrawImage(bmp, 0, 0);
 
             this.pictureBox1.Refresh();
 
