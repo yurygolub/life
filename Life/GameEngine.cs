@@ -93,7 +93,7 @@ namespace Life
         {
             if (this.ValidateCellPosition(i, j))
             {
-                this.field[i][j] = state ? (byte)1 : (byte)0;
+                this.field[i + 1][j + 1] = state ? (byte)1 : (byte)0;
             }
         }
     }
