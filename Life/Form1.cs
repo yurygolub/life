@@ -83,7 +83,7 @@ namespace Life
                     {
                         for (int j = 0; j < this.resolution; j++)
                         {
-                            this.rgbValues[(yIndex + x * this.resolution + j) * 4 + 2] = (byte)(field[y][x] * 255);
+                            this.rgbValues[(yIndex + x * this.resolution + j) * 4 + 2] = (byte)(field[y + 1][x + 1] * 255);
                         }
                     }
                 }

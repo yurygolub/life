@@ -15,18 +15,21 @@ namespace Life
             this.rows = rows;
             this.cols = cols;
 
-            this.field = new byte[rows][];
-            this.newField = new byte[rows][];
+            this.field = new byte[rows + 2][];
+            this.newField = new byte[rows + 2][];
+
+            for (int i = 0; i < rows + 2; i++)
+            {
+                this.field[i] = new byte[cols + 2];
+                this.newField[i] = new byte[cols + 2];
+            }
 
             Random rand = new Random();
             for (int i = 0; i < rows; i++)
             {
-                this.field[i] = new byte[cols];
-                this.newField[i] = new byte[cols];
-
                 for (int j = 0; j < cols; j++)
                 {
-                    this.field[i][j] = (rand.Next(density) == 0) ? (byte)1 : (byte)0;
+                    this.field[i + 1][j + 1] = (rand.Next(density) == 0) ? (byte)1 : (byte)0;
                 }
             }
         }
@@ -39,21 +42,21 @@ namespace Life
             {
                 int buffer = 0;
 
-                buffer |= this.field[(i - 1 + this.rows) % this.rows][(-1 + this.cols) % this.cols];
-                buffer |= this.field[(i + this.rows) % this.rows][(-1 + this.cols) % this.cols] << 1;
-                buffer |= this.field[(i + 1 + this.rows) % this.rows][(-1 + this.cols) % this.cols] << 2;
+                buffer |= this.field[i][0];
+                buffer |= this.field[i + 1][0] << 1;
+                buffer |= this.field[i + 2][0] << 2;
 
-                buffer |= this.field[(i - 1 + this.rows) % this.rows][0] << 3;
-                buffer |= this.field[(i + this.rows) % this.rows][0] << 4;
-                buffer |= this.field[(i + 1 + this.rows) % this.rows][0] << 5;
+                buffer |= this.field[i][1] << 3;
+                buffer |= this.field[i + 1][1] << 4;
+                buffer |= this.field[i + 2][1] << 5;
 
                 for (int j = 0; j < this.cols; j++)
                 {
-                    buffer |= this.field[(i - 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols] << 6;
-                    buffer |= this.field[(i + this.rows) % this.rows][(j + 1 + this.cols) % this.cols] << 7;
-                    buffer |= this.field[(i + 1 + this.rows) % this.rows][(j + 1 + this.cols) % this.cols] << 8;
+                    buffer |= this.field[i][j + 2] << 6;
+                    buffer |= this.field[i + 1][j + 2] << 7;
+                    buffer |= this.field[i + 2][j + 2] << 8;
 
-                    this.newField[i][j] = Magic.Solutions[buffer];
+                    this.newField[i + 1][j + 1] = Magic.Solutions[buffer];
 
                     buffer >>= 3;
                 }
