@@ -69,7 +69,7 @@ namespace Life
         {
             this.stopwatch.Restart();
 
-            Bitmap bmp = (Bitmap)this.pictureBox1.Image.Clone();
+            Bitmap bmp = (Bitmap)this.pictureBox1.Image;
 
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
