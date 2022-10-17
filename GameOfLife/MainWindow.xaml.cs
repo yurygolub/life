@@ -1,9 +1,10 @@
 ﻿using Life;
 using System;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace GameOfLife
 {
@@ -13,49 +14,19 @@ namespace GameOfLife
     public partial class MainWindow : Window
     {
         private static WriteableBitmap writeableBitmap;
+
+        private readonly DispatcherTimer timer = new DispatcherTimer();
+
+        private readonly Stopwatch stopwatch = new Stopwatch();
+
         private GameEngine gameEngine;
 
         private int rows;
         private int cols;
 
-        private bool completed = true;
-
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private static void DrawPixel(int row, int column, byte color)
-        {
-            try
-            {
-                // Reserve the back buffer for updates.
-                writeableBitmap.Lock();
-
-                unsafe
-                {
-                    // Get a pointer to the back buffer.
-                    IntPtr pBackBuffer = writeableBitmap.BackBuffer;
-
-                    // Find the address of the pixel to draw.
-                    pBackBuffer += row * writeableBitmap.BackBufferStride;
-                    pBackBuffer += column * 4;
-
-                    // Compute the pixel's color.
-                    int color_data = color << 16; // R
-
-                    // Assign the color data to the pixel.
-                    *((int*)pBackBuffer) = color_data;
-                }
-
-                // Specify the area of the bitmap that changed.
-                writeableBitmap.AddDirtyRect(new Int32Rect(column, row, 1, 1));
-            }
-            finally
-            {
-                // Release the back buffer and make it available for display.
-                writeableBitmap.Unlock();
-            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -76,39 +47,58 @@ namespace GameOfLife
 
             image.Source = writeableBitmap;
 
-            using BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += this.Worker_DoWork;
-            worker.ProgressChanged += this.Worker_ProgressChanged;
-            worker.WorkerReportsProgress = true;
-            worker.RunWorkerAsync();
+            this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+            this.timer.Tick += (sender, e) => this.Timer_Tick();
+            this.timer.Start();
         }
 
-        private void Worker_DoWork(object sender, DoWorkEventArgs e)
+        private void Timer_Tick()
         {
-            while (true)
-            {
-                if (completed)
-                {
-                    completed = false;
+            this.stopwatch.Restart();
 
-                    ((BackgroundWorker)sender).ReportProgress(0);
-
-                    this.gameEngine.NextGeneration();
-                }
-            }
-        }
-
-        private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
             byte[][] field = this.gameEngine.GetCurrentGeneration();
 
-            for (int i = 0; i < this.rows; i++)
+            try
             {
-                for (int j = 0; j < this.cols; j++)
+                // Reserve the back buffer for updates.
+                writeableBitmap.Lock();
+
+                unsafe
                 {
-                    DrawPixel(i, j, (byte)(field[i + 1][j + 1] * 255));
+                    for (int i = 0; i < this.rows; i++)
+                    {
+                        for (int j = 0; j < this.cols; j++)
+                        {
+                            // Get a pointer to the back buffer.
+                            IntPtr pBackBuffer = writeableBitmap.BackBuffer;
+
+                            // Find the address of the pixel to draw.
+                            pBackBuffer += i * writeableBitmap.BackBufferStride;
+                            pBackBuffer += j * 4;
+
+                            // Compute the pixel's color.
+                            int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
+
+                            // Assign the color data to the pixel.
+                            *((int*)pBackBuffer) = color_data;
+                        }
+                    }
                 }
+
+                // Specify the area of the bitmap that changed.
+                writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, this.cols, this.rows));
             }
+            finally
+            {
+                // Release the back buffer and make it available for display.
+                writeableBitmap.Unlock();
+            }
+
+            this.gameEngine.NextGeneration();
+
+            this.stopwatch.Stop();
+
+            this.Title = $"Frame time: {this.stopwatch.ElapsedMilliseconds} ms";
         }
     }
 }
