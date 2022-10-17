@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="400" Width="800"
-        Loaded="Window_Loaded"
-        WindowState="Maximized">
+        WindowState="Maximized"
+        WindowStyle="None"
+        Cursor="None">
     
-    <Image x:Name="image"/>
+    <Image x:Name="image" SnapsToDevicePixels="True"
+           Width="1920" Height="1080" Loaded="Image_Loaded"
+           HorizontalAlignment="Left" VerticalAlignment="Top"/>
 </Window>

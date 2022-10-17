@@ -29,17 +29,16 @@ namespace GameOfLife
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Image_Loaded(object sender, RoutedEventArgs e)
         {
-            this.rows = (int)this.ActualHeight;
-            this.cols = (int)this.ActualWidth;
+            this.cols = (int)image.Width;
+            this.rows = (int)image.Height;
 
             this.gameEngine = new GameEngine(this.rows, this.cols, 2);
 
-
             writeableBitmap = new WriteableBitmap(
-                (int)this.ActualWidth,
-                (int)this.ActualHeight,
+                (int)image.Width,
+                (int)image.Height,
                 96,
                 96,
                 PixelFormats.Bgr32,
