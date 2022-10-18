@@ -1,6 +1,5 @@
 ﻿using GameOfLife;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace RadarDataVisualizer
 {

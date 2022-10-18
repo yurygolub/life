@@ -1,15 +1,15 @@
-﻿using Life;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Life;
 
 namespace GameOfLife
 {
     /// <summary>
-    /// Interaction logic for LifeWindow.xaml
+    /// Interaction logic for LifeWindow.xaml.
     /// </summary>
     public partial class LifeWindow : Window
     {
@@ -26,25 +26,25 @@ namespace GameOfLife
 
         public LifeWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void Image_Loaded(object sender, RoutedEventArgs e)
         {
-            this.cols = (int)image.Width;
-            this.rows = (int)image.Height;
+            this.cols = (int)this.image.Width;
+            this.rows = (int)this.image.Height;
 
             this.gameEngine = new GameEngine(this.rows, this.cols, 2);
 
             writeableBitmap = new WriteableBitmap(
-                (int)image.Width,
-                (int)image.Height,
+                (int)this.image.Width,
+                (int)this.image.Height,
                 96,
                 96,
                 PixelFormats.Bgr32,
                 null);
 
-            image.Source = writeableBitmap;
+            this.image.Source = writeableBitmap;
 
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             this.timer.Tick += (sender, e) => this.Timer_Tick();
