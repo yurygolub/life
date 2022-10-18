@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        WindowState="Maximized"
-        WindowStyle="None"
-        Cursor="None">
-    
-    <Image x:Name="image" SnapsToDevicePixels="True"
-           Width="1920" Height="1080" Loaded="Image_Loaded"
-           HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        Title="GameOfLife"
+        Height="450" Width="800">
+
+    <Grid>
+        <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                Width="120" Height="40" Click="Button_Click">
+            GO
+        </Button>
+    </Grid>
 </Window>
