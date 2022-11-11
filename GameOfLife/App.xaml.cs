@@ -25,14 +25,22 @@ namespace GameOfLife
 
         public Startup AppStartup { get; }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            this.AppHost.Start();
+            await this.AppHost.StartAsync();
 
             var startupWindow = this.AppHost.Services.GetRequiredService<MainWindow>();
             startupWindow.Show();
 
             base.OnStartup(e);
+        }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            await this.AppHost.StopAsync();
+            this.AppHost.Dispose();
+
+            base.OnExit(e);
         }
     }
 }
