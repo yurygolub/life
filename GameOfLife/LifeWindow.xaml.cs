@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 
 namespace GameOfLife
 {
@@ -13,8 +12,6 @@ namespace GameOfLife
     public partial class LifeWindow : Window
     {
         private static WriteableBitmap writeableBitmap;
-
-        private readonly DispatcherTimer timer = new DispatcherTimer();
 
         private readonly Stopwatch stopwatch = new Stopwatch();
 
@@ -30,6 +27,9 @@ namespace GameOfLife
 
         private void Image_Loaded(object sender, RoutedEventArgs e)
         {
+            CompositionTarget.Rendering += this.CompositionTarget_Rendering;
+            this.Closing += (o, e) => CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
+
             this.cols = (int)this.image.Width;
             this.rows = (int)this.image.Height;
 
@@ -44,13 +44,9 @@ namespace GameOfLife
                 null);
 
             this.image.Source = writeableBitmap;
-
-            this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            this.timer.Tick += (sender, e) => this.Timer_Tick();
-            this.timer.Start();
         }
 
-        private void Timer_Tick()
+        private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
             this.stopwatch.Restart();
 
