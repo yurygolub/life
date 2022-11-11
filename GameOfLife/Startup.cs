@@ -1,7 +1,6 @@
-﻿using GameOfLife;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace RadarDataVisualizer
+namespace GameOfLife
 {
     public class Startup
     {

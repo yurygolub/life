@@ -1,4 +1,4 @@
-﻿namespace Life
+﻿namespace GameOfLife
 {
     internal static class Magic
     {

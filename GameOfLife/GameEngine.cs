@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Life
+namespace GameOfLife
 {
     internal class GameEngine
     {
