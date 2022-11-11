@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Life
 {
@@ -38,7 +39,7 @@ namespace Life
 
         public void NextGeneration()
         {
-            for (int i = 0; i < this.rows; i++)
+            Parallel.For(0, this.rows, (i) =>
             {
                 int buffer = 0;
 
@@ -60,7 +61,7 @@ namespace Life
 
                     buffer >>= 3;
                 }
-            }
+            });
 
             byte[][] temp = this.field;
             this.field = this.newField;
