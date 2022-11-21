@@ -13,25 +13,15 @@ namespace GameOfLife
     public partial class LifeWindow : Window
     {
         private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly GameEngine gameEngine;
+        private readonly WriteableBitmap writeableBitmap;
 
-        private WriteableBitmap writeableBitmap;
-
-        private GameEngine gameEngine;
-
-        private int rows;
-        private int cols;
+        private readonly int rows;
+        private readonly int cols;
 
         public LifeWindow()
         {
             this.InitializeComponent();
-        }
-
-        private void Image_Loaded(object sender, RoutedEventArgs e)
-        {
-            CompositionTarget.Rendering += this.CompositionTarget_Rendering;
-
-            this.Closing += (o, e) =>
-                CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
 
             this.cols = (int)this.image.Width;
             this.rows = (int)this.image.Height;
@@ -47,6 +37,11 @@ namespace GameOfLife
                 null);
 
             this.image.Source = this.writeableBitmap;
+
+            CompositionTarget.Rendering += this.CompositionTarget_Rendering;
+
+            this.Closing += (o, e) =>
+                CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
         }
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
@@ -57,19 +52,19 @@ namespace GameOfLife
             {
                 this.writeableBitmap.Lock();
 
-                unsafe
+                for (int i = 0; i < this.rows; i++)
                 {
-                    for (int i = 0; i < this.rows; i++)
+                    for (int j = 0; j < this.cols; j++)
                     {
-                        for (int j = 0; j < this.cols; j++)
+                        IntPtr pBackBuffer = this.writeableBitmap.BackBuffer;
+
+                        pBackBuffer += i * this.writeableBitmap.BackBufferStride;
+                        pBackBuffer += j * 3;
+
+                        int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
+
+                        unsafe
                         {
-                            IntPtr pBackBuffer = this.writeableBitmap.BackBuffer;
-
-                            pBackBuffer += i * this.writeableBitmap.BackBufferStride;
-                            pBackBuffer += j * 3;
-
-                            int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
-
                             *(int*)pBackBuffer = color_data;
                         }
                     }

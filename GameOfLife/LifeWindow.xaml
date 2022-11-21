@@ -9,7 +9,9 @@
         WindowStyle="None"
         Cursor="None">
 
-    <Image x:Name="image" SnapsToDevicePixels="True"
-           Width="1920" Height="1080" Loaded="Image_Loaded"
-           HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    <Image x:Name="image"
+           SnapsToDevicePixels="True"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           Width="1920" Height="1080"/>
 </Window>
