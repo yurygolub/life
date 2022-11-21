@@ -5,6 +5,7 @@
 		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<CodeAnalysisRuleSet>..\code-analysis.ruleset</CodeAnalysisRuleSet>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
   
   	<ItemGroup>

@@ -76,6 +76,7 @@
             // 
             // bStop
             // 
+            this.bStop.Enabled = false;
             this.bStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.bStop.Location = new System.Drawing.Point(11, 178);
             this.bStop.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -181,7 +182,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 10;
+            this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // Form1
