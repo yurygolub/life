@@ -12,9 +12,9 @@ namespace GameOfLife
     /// </summary>
     public partial class LifeWindow : Window
     {
-        private static WriteableBitmap writeableBitmap;
-
         private readonly Stopwatch stopwatch = new Stopwatch();
+
+        private WriteableBitmap writeableBitmap;
 
         private GameEngine gameEngine;
 
@@ -38,7 +38,7 @@ namespace GameOfLife
 
             this.gameEngine = new GameEngine(this.rows, this.cols, 2);
 
-            writeableBitmap = new WriteableBitmap(
+            this.writeableBitmap = new WriteableBitmap(
                 (int)this.image.Width,
                 (int)this.image.Height,
                 96,
@@ -46,7 +46,7 @@ namespace GameOfLife
                 PixelFormats.Bgr24,
                 null);
 
-            this.image.Source = writeableBitmap;
+            this.image.Source = this.writeableBitmap;
         }
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace GameOfLife
 
             try
             {
-                writeableBitmap.Lock();
+                this.writeableBitmap.Lock();
 
                 unsafe
                 {
@@ -63,9 +63,9 @@ namespace GameOfLife
                     {
                         for (int j = 0; j < this.cols; j++)
                         {
-                            IntPtr pBackBuffer = writeableBitmap.BackBuffer;
+                            IntPtr pBackBuffer = this.writeableBitmap.BackBuffer;
 
-                            pBackBuffer += i * writeableBitmap.BackBufferStride;
+                            pBackBuffer += i * this.writeableBitmap.BackBufferStride;
                             pBackBuffer += j * 3;
 
                             int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
@@ -75,11 +75,11 @@ namespace GameOfLife
                     }
                 }
 
-                writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, this.cols, this.rows));
+                this.writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, this.cols, this.rows));
             }
             finally
             {
-                writeableBitmap.Unlock();
+                this.writeableBitmap.Unlock();
             }
 
             this.gameEngine.NextGeneration();
