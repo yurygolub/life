@@ -5,12 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="GameOfLife"
+        FontSize="18"
         Height="450" Width="800">
 
     <Grid>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center"
-                Width="120" Height="40" Click="Button_Click">
-            GO
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Column="0"
+                Click="Button_Click"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="20, 10">
+            Open a new window
+        </Button>
+
+        <Button Grid.Column="1"
+                Click="Button_Click_1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="20, 10">
+            Close all windows
         </Button>
     </Grid>
 </Window>

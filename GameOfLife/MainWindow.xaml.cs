@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +14,8 @@ namespace GameOfLife
     {
         private readonly IServiceProvider serviceProvider;
 
+        private List<Window> windows = new List<Window>();
+
         public MainWindow(IServiceProvider serviceProvider)
         {
             this.InitializeComponent();
@@ -19,7 +24,14 @@ namespace GameOfLife
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.serviceProvider.GetRequiredService<LifeWindow>().Show();
+            var window = this.serviceProvider.GetRequiredService<LifeWindow>();
+            this.windows.Add(window);
+            window.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.windows.ForEach(w => w.Close());
         }
     }
 }
