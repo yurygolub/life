@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using LifeGameService;
 
 #pragma warning disable SA1407
 
@@ -73,7 +74,7 @@ namespace Life
 
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
-            var field = this.gameEngine.GetCurrentGeneration();
+            var field = this.gameEngine.GetCurrentField();
             for (int y = 0; y < this.rows; y++)
             {
                 for (int i = 0; i < this.resolution; i++)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LifeGameService;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GameOfLife
 {
@@ -6,7 +7,8 @@ namespace GameOfLife
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<MainWindow>()
+            services
+                .AddSingleton<MainWindow>()
                 .AddTransient<LifeWindow>();
         }
     }

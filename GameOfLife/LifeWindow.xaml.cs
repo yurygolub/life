@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using LifeGameService;
 
 namespace GameOfLife
 {
@@ -50,7 +51,7 @@ namespace GameOfLife
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
-            byte[][] field = this.gameEngine.GetCurrentGeneration();
+            byte[][] field = this.gameEngine.GetCurrentField();
 
             try
             {
