@@ -50,8 +50,6 @@ namespace GameOfLife
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
-            this.stopwatch.Restart();
-
             byte[][] field = this.gameEngine.GetCurrentGeneration();
 
             try
@@ -88,6 +86,8 @@ namespace GameOfLife
             this.stopwatch.Stop();
 
             this.Title = $"Frame time: {this.stopwatch.ElapsedMilliseconds} ms";
+
+            this.stopwatch.Restart();
         }
     }
 }
