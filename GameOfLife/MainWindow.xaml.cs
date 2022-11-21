@@ -9,17 +9,17 @@ namespace GameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IServiceProvider serviceProvider;
+
         public MainWindow(IServiceProvider serviceProvider)
         {
             this.InitializeComponent();
-            this.ServiceProvider = serviceProvider;
+            this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
-
-        public IServiceProvider ServiceProvider { get; }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.ServiceProvider.GetRequiredService<LifeWindow>().Show();
+            this.serviceProvider.GetRequiredService<LifeWindow>().Show();
         }
     }
 }

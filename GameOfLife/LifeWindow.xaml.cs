@@ -28,7 +28,9 @@ namespace GameOfLife
         private void Image_Loaded(object sender, RoutedEventArgs e)
         {
             CompositionTarget.Rendering += this.CompositionTarget_Rendering;
-            this.Closing += (o, e) => CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
+
+            this.Closing += (o, e) =>
+                CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
 
             this.cols = (int)this.image.Width;
             this.rows = (int)this.image.Height;
@@ -40,7 +42,7 @@ namespace GameOfLife
                 (int)this.image.Height,
                 96,
                 96,
-                PixelFormats.Bgr32,
+                PixelFormats.Bgr24,
                 null);
 
             this.image.Source = writeableBitmap;
@@ -54,7 +56,6 @@ namespace GameOfLife
 
             try
             {
-                // Reserve the back buffer for updates.
                 writeableBitmap.Lock();
 
                 unsafe
@@ -63,28 +64,22 @@ namespace GameOfLife
                     {
                         for (int j = 0; j < this.cols; j++)
                         {
-                            // Get a pointer to the back buffer.
                             IntPtr pBackBuffer = writeableBitmap.BackBuffer;
 
-                            // Find the address of the pixel to draw.
                             pBackBuffer += i * writeableBitmap.BackBufferStride;
-                            pBackBuffer += j * 4;
+                            pBackBuffer += j * 3;
 
-                            // Compute the pixel's color.
                             int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
 
-                            // Assign the color data to the pixel.
-                            *((int*)pBackBuffer) = color_data;
+                            *(int*)pBackBuffer = color_data;
                         }
                     }
                 }
 
-                // Specify the area of the bitmap that changed.
                 writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, this.cols, this.rows));
             }
             finally
             {
-                // Release the back buffer and make it available for display.
                 writeableBitmap.Unlock();
             }
 
