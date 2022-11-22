@@ -9,7 +9,7 @@ using LifeGameService;
 
 namespace Life
 {
-    public partial class Form1 : Form
+    internal partial class Form1 : Form
     {
         private readonly Stopwatch stopwatch = new Stopwatch();
 
