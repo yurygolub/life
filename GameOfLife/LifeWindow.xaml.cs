@@ -52,20 +52,23 @@ namespace GameOfLife
             {
                 this.writeableBitmap.Lock();
 
+                IntPtr backBufferPtr = this.writeableBitmap.BackBuffer;
+                int stride = this.writeableBitmap.BackBufferStride;
+
                 for (int i = 0; i < this.rows; i++)
                 {
                     for (int j = 0; j < this.cols; j++)
                     {
-                        IntPtr pBackBuffer = this.writeableBitmap.BackBuffer;
+                        IntPtr resultPtr = backBufferPtr;
 
-                        pBackBuffer += i * this.writeableBitmap.BackBufferStride;
-                        pBackBuffer += j * 3;
+                        resultPtr += i * stride;
+                        resultPtr += j * 3;
 
                         int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
 
                         unsafe
                         {
-                            *(int*)pBackBuffer = color_data;
+                            *(int*)resultPtr = color_data;
                         }
                     }
                 }

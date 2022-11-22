@@ -51,6 +51,9 @@ namespace Life
             {
                 bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
 
+                IntPtr backBufferPtr = bmpData.Scan0;
+                int stride = bmpData.Stride;
+
                 for (int y = 0; y < this.rows; y++)
                 {
                     for (int i = 0; i < this.resolution; i++)
@@ -62,16 +65,16 @@ namespace Life
                             {
                                 int xIndex = x * this.resolution + j;
 
-                                IntPtr backBufferPtr = bmpData.Scan0;
+                                IntPtr resultPtr = backBufferPtr;
 
-                                backBufferPtr += yIndex * bmpData.Stride;
-                                backBufferPtr += xIndex * 3;
+                                resultPtr += yIndex * stride;
+                                resultPtr += xIndex * 3;
 
                                 int colorData = (byte)(field[y + 1][x + 1] * 255) << 16; // R
 
                                 unsafe
                                 {
-                                    *(int*)backBufferPtr = colorData;
+                                    *(int*)resultPtr = colorData;
                                 }
                             }
                         }
