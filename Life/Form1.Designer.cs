@@ -153,7 +153,7 @@
             this.nudResolution.TabIndex = 1;
             this.nudResolution.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudResolution.Value = new decimal(new int[] {
-            3,
+            1,
             0,
             0,
             0});
