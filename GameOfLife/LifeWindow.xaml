@@ -4,14 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLife"
-        mc:Ignorable="d"
-        WindowState="Maximized"
-        WindowStyle="None"
-        Cursor="None">
+        mc:Ignorable="d">
 
     <Image x:Name="image"
            SnapsToDevicePixels="True"
            HorizontalAlignment="Left"
-           VerticalAlignment="Top"
-           Width="1920" Height="1080"/>
+           VerticalAlignment="Top"/>
 </Window>

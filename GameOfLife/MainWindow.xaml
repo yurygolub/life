@@ -14,14 +14,29 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0"
-                Click="Button_Click"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Padding="20, 10">
-            Open a new window
-        </Button>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <CheckBox Grid.Row="0"
+                      x:Name="checkBox"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Padding="10" Margin="10">
+                Full screen enabled
+            </CheckBox>
 
+            <Button Grid.Row="1"
+                    Click="Button_Click"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="20, 10" Margin="10">
+                Open a new window
+            </Button>
+        </Grid>
+        
         <Button Grid.Column="1"
                 Click="Button_Click_1"
                 HorizontalAlignment="Center"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LifeGameService;
@@ -12,29 +13,30 @@ namespace GameOfLife
     /// </summary>
     public partial class LifeWindow : Window
     {
+        private const int Rows = 1080;
+        private const int Cols = 1920;
+
         private readonly Stopwatch stopwatch = new Stopwatch();
         private readonly GameEngine gameEngine;
         private readonly WriteableBitmap writeableBitmap;
 
-        private readonly int rows;
-        private readonly int cols;
-
-        public LifeWindow()
+        public LifeWindow(bool fullScreenEnabled)
         {
+            if (fullScreenEnabled)
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.None;
+                this.Cursor = Cursors.None;
+            }
+
             this.InitializeComponent();
 
-            this.cols = (int)this.image.Width;
-            this.rows = (int)this.image.Height;
+            this.image.Height = Rows;
+            this.image.Width = Cols;
 
-            this.gameEngine = new GameEngine(this.rows, this.cols, 2);
+            this.gameEngine = new GameEngine(Rows, Cols, 2);
 
-            this.writeableBitmap = new WriteableBitmap(
-                (int)this.image.Width,
-                (int)this.image.Height,
-                96,
-                96,
-                PixelFormats.Bgr24,
-                null);
+            this.writeableBitmap = new WriteableBitmap(Cols, Rows, 96, 96, PixelFormats.Bgr24, null);
 
             this.image.Source = this.writeableBitmap;
 
@@ -46,6 +48,11 @@ namespace GameOfLife
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
+            this.DrawNextGeneration();
+        }
+
+        private void DrawNextGeneration()
+        {
             byte[][] field = this.gameEngine.GetCurrentField();
 
             try
@@ -55,9 +62,9 @@ namespace GameOfLife
                 IntPtr backBufferPtr = this.writeableBitmap.BackBuffer;
                 int stride = this.writeableBitmap.BackBufferStride;
 
-                for (int i = 0; i < this.rows; i++)
+                for (int i = 0; i < Rows; i++)
                 {
-                    for (int j = 0; j < this.cols; j++)
+                    for (int j = 0; j < Cols; j++)
                     {
                         IntPtr resultPtr = backBufferPtr;
 
@@ -73,7 +80,7 @@ namespace GameOfLife
                     }
                 }
 
-                this.writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, this.cols, this.rows));
+                this.writeableBitmap.AddDirtyRect(new Int32Rect(0, 0, Cols, Rows));
             }
             finally
             {
