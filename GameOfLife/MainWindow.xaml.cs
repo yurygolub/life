@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 
 namespace GameOfLife
@@ -9,7 +8,7 @@ namespace GameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Window> windows = new List<Window>();
+        private readonly List<Window> windows = new ();
 
         public MainWindow()
         {

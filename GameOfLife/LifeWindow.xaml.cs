@@ -16,9 +16,9 @@ namespace GameOfLife
         private const int Rows = 1080;
         private const int Cols = 1920;
 
-        private readonly Stopwatch stopwatch = new Stopwatch();
-        private readonly GameEngine gameEngine;
-        private readonly WriteableBitmap writeableBitmap;
+        private readonly Stopwatch stopwatch = new ();
+        private readonly GameEngine gameEngine = new (Rows, Cols, 2);
+        private readonly WriteableBitmap writeableBitmap = new (Cols, Rows, 96, 96, PixelFormats.Bgr24, null);
 
         public LifeWindow(bool fullScreenEnabled)
         {
@@ -33,10 +33,6 @@ namespace GameOfLife
 
             this.image.Height = Rows;
             this.image.Width = Cols;
-
-            this.gameEngine = new GameEngine(Rows, Cols, 2);
-
-            this.writeableBitmap = new WriteableBitmap(Cols, Rows, 96, 96, PixelFormats.Bgr24, null);
 
             this.image.Source = this.writeableBitmap;
 
@@ -71,11 +67,11 @@ namespace GameOfLife
                         resultPtr += i * stride;
                         resultPtr += j * 3;
 
-                        int color_data = (byte)(field[i + 1][j + 1] * 255) << 16; // R
+                        int colorData = (byte)(field[i + 1][j + 1] * 255) << 16; // R
 
                         unsafe
                         {
-                            *(int*)resultPtr = color_data;
+                            *(int*)resultPtr = colorData;
                         }
                     }
                 }

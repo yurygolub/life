@@ -11,7 +11,7 @@ namespace Life
 {
     internal partial class Form1 : Form
     {
-        private readonly Stopwatch stopwatch = new Stopwatch();
+        private readonly Stopwatch stopwatch = new ();
 
         private int rows;
         private int cols;
