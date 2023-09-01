@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 
 namespace GameOfLife
 {
@@ -26,6 +27,11 @@ namespace GameOfLife
         {
             this.windows.ForEach(w => w.Close());
             this.windows.Clear();
+        }
+
+        private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

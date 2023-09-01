@@ -20,6 +20,10 @@ namespace GameOfLife
         private readonly GameEngine gameEngine = new (Rows, Cols, 2);
         private readonly WriteableBitmap writeableBitmap = new (Cols, Rows, 96, 96, PixelFormats.Bgr24, null);
 
+        private ActionCommand changeFullScreenMode;
+
+        private bool isFullScreen;
+
         public LifeWindow(bool fullScreenEnabled)
         {
             if (fullScreenEnabled)
@@ -27,6 +31,7 @@ namespace GameOfLife
                 this.WindowState = WindowState.Maximized;
                 this.WindowStyle = WindowStyle.None;
                 this.Cursor = Cursors.None;
+                this.isFullScreen = true;
             }
 
             this.InitializeComponent();
@@ -41,6 +46,23 @@ namespace GameOfLife
             this.Closing += (o, e) =>
                 CompositionTarget.Rendering -= this.CompositionTarget_Rendering;
         }
+
+        public ICommand ChangeFullScreenMode => this.changeFullScreenMode ??= new ActionCommand(() =>
+        {
+            this.isFullScreen = !this.isFullScreen;
+            if (this.isFullScreen)
+            {
+                this.WindowState = WindowState.Maximized;
+                this.WindowStyle = WindowStyle.None;
+                this.Cursor = Cursors.None;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.Cursor = Cursors.Arrow;
+            }
+        });
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
@@ -67,7 +89,7 @@ namespace GameOfLife
                         resultPtr += i * stride;
                         resultPtr += j * 3;
 
-                        int colorData = (byte)(field[i + 1][j + 1] * 255) << 16; // R
+                        int colorData = (field[i + 1][j + 1] * 255) << 16; // R
 
                         unsafe
                         {
@@ -90,6 +112,11 @@ namespace GameOfLife
             this.Title = $"Frame time: {this.stopwatch.ElapsedMilliseconds} ms";
 
             this.stopwatch.Restart();
+        }
+
+        private void CloseCommandHandler(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

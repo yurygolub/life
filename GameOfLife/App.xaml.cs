@@ -9,7 +9,8 @@ namespace GameOfLife
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            new MainWindow().Show();
+            this.MainWindow = new MainWindow();
+            this.MainWindow.Show();
             base.OnStartup(e);
         }
     }
