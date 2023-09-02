@@ -30,6 +30,7 @@ namespace GameOfLife
             {
                 this.WindowState = WindowState.Maximized;
                 this.WindowStyle = WindowStyle.None;
+                this.ResizeMode = ResizeMode.NoResize;
                 this.Cursor = Cursors.None;
                 this.isFullScreen = true;
             }
@@ -54,12 +55,14 @@ namespace GameOfLife
             {
                 this.WindowState = WindowState.Maximized;
                 this.WindowStyle = WindowStyle.None;
+                this.ResizeMode = ResizeMode.NoResize;
                 this.Cursor = Cursors.None;
             }
             else
             {
                 this.WindowState = WindowState.Normal;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.ResizeMode = ResizeMode.CanResize;
                 this.Cursor = Cursors.Arrow;
             }
         });
