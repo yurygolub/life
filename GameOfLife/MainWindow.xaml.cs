@@ -18,7 +18,8 @@ namespace GameOfLife
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var window = new LifeWindow(this.checkBox.IsChecked.Value);
+            var viewModel = new LifeWindowViewModel(this.checkBox.IsChecked.Value);
+            var window = new LifeWindow(viewModel);
             this.windows.Add(window);
             window.Show();
         }

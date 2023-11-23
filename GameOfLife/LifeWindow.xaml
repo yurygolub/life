@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Name="lifeWindow"
-        DataContext="{Binding ElementName=lifeWindow}"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+        WindowState="{Binding WindowState}"
+        WindowStyle="{Binding WindowStyle}"
+        ResizeMode="{Binding ResizeMode}"
+        Cursor="{Binding Cursor}"
+        Title="{Binding Title}"
+        Closing="Window_Closing"
         d:Height="150" d:Width="250" >
     <Window.InputBindings>
         <KeyBinding Key="Esc"
@@ -20,7 +25,9 @@
                         Executed="CloseCommandHandler"/>
     </Window.CommandBindings>
 
-    <Image x:Name="image"
+    <Image Source="{Binding ImageSource}"
+           Height="{Binding Height}"
+           Width="{Binding Width}"
            SnapsToDevicePixels="True"
            HorizontalAlignment="Left"
            VerticalAlignment="Top"/>
